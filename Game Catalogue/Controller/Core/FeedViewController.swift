@@ -31,6 +31,8 @@ class FeedViewController: UIViewController {
     private var creator: [Creator] = []
     private var developers: [Creator] = []
     
+
+    
     private var collectionView: UICollectionView = UICollectionView (
         frame: .zero,
         collectionViewLayout: UICollectionViewCompositionalLayout {
@@ -45,6 +47,7 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        createSpinnerView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,8 +55,7 @@ class FeedViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.frame = view.bounds
     }
-    
-    
+ 
     //MARK: - Actions
     
     //MARK: - API
@@ -69,7 +71,7 @@ class FeedViewController: UIViewController {
         var listOfDeveloper: CreatorResponse?
         
         //list of game
-        APICaller.shared.getListOfGame { result in
+        APICaller.shared.getListOfFeed(urlPath: APICaller.serviceUrlPath.games) { result in
             defer {
                 group.leave()
             }
@@ -80,8 +82,9 @@ class FeedViewController: UIViewController {
                     print(error.localizedDescription)
             }
         }
+        
         //list of creator
-        APICaller.shared.getListOfCreator { result in
+        APICaller.shared.getListOfCreatorFeed(urlPath: APICaller.serviceUrlPath.creators) { result in
             defer {
                 group.leave()
             }
@@ -94,7 +97,7 @@ class FeedViewController: UIViewController {
         }
         
         //list of developer
-        APICaller.shared.getListOfDevelopers { result in
+        APICaller.shared.getListOfCreatorFeed(urlPath: APICaller.serviceUrlPath.developers) { result in
             defer {
                 group.leave()
             }
@@ -177,6 +180,26 @@ class FeedViewController: UIViewController {
         
         collectionView.reloadData()
     }
+    
+    func createSpinnerView() {
+        let child = SpinnerViewController()
+
+        // add the spinner view controller
+        addChild(child)
+        child.view.frame = view.frame
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
+
+        // wait two seconds to simulate some work happening
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            // then remove the spinner view controller
+            child.willMove(toParent: nil)
+            child.view.removeFromSuperview()
+            child.removeFromParent()
+        }
+    }
+    
+    
     
 }
 
@@ -338,4 +361,5 @@ extension FeedViewController {
         }
     }
 }
+
 
