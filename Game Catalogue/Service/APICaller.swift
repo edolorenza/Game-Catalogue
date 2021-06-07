@@ -65,6 +65,27 @@ final class APICaller {
         }
     }
     
+    //MARK: - Get List Of Developers
+    public func getListOfDevelopers(completion: @escaping(Result<CreatorResponse, Error>) -> Void){
+        createRequest(with: URL(string: Constants.baseAPIURL+"/developers?key="+Constants.apiKey), type: .GET) {
+            baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else{
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+    
+                do{
+                    let result = try JSONDecoder().decode(CreatorResponse.self, from: data)
+                    completion(.success(result))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
     //MARK: - Private
     
     enum HTTPMethod: String{

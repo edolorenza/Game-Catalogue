@@ -10,12 +10,15 @@ import UIKit
 enum FeedSectionType{
     case listOfGames(viewModels: [GamesViewModel]) // 0
     case listOfCreator(viewModels: [CreatorViewModel]) //1
+    case listOfDevelopers(viewModels: [DeveloperViewModel]) //1
     
     var title: String{
         switch self {
         case .listOfGames:
             return "Games"
         case .listOfCreator:
+            return "Cretor"
+        case .listOfDevelopers:
             return "Cretor"
         }
     }
@@ -26,6 +29,7 @@ class FeedViewController: UIViewController {
     //MARK: - Properties
     private var games: [Games] = []
     private var creator: [Creator] = []
+    private var developers: [Creator] = []
     
     private var collectionView: UICollectionView = UICollectionView (
         frame: .zero,
@@ -58,9 +62,11 @@ class FeedViewController: UIViewController {
         let group = DispatchGroup()
         group.enter()
         group.enter()
+        group.enter()
         
         var listOfGames: GamesResponse?
         var listOfCreator: CreatorResponse?
+        var listOfDeveloper: CreatorResponse?
         
         //list of game
         APICaller.shared.getListOfGame { result in
@@ -74,7 +80,7 @@ class FeedViewController: UIViewController {
                     print(error.localizedDescription)
             }
         }
-        //featured playlist
+        //list of creator
         APICaller.shared.getListOfCreator { result in
             defer {
                 group.leave()
@@ -86,16 +92,31 @@ class FeedViewController: UIViewController {
                     print(error.localizedDescription)
             }
         }
+        
+        //list of developer
+        APICaller.shared.getListOfDevelopers { result in
+            defer {
+                group.leave()
+            }
+            switch result {
+                case.success(let model):
+                    listOfDeveloper = model
+                case .failure(let error):
+                    print(error.localizedDescription)
+            }
+        }
+ 
  
         
         group.notify(queue: .main){
             
             guard let game = listOfGames?.results,
-                  let creator = listOfCreator?.results
+                  let creator = listOfCreator?.results,
+                  let developer = listOfDeveloper?.results
               
             else { return }
             
-            self.configureModels(newGame: game, newCreator: creator)
+            self.configureModels(newGame: game, newCreator: creator, newDeveloper: developer)
         }
         
     }
@@ -113,6 +134,8 @@ class FeedViewController: UIViewController {
                                 forCellWithReuseIdentifier: FeedViewCollectionViewCell.identifier)
         collectionView.register(CreatorViewCollectionViewCell.self,
                                 forCellWithReuseIdentifier: CreatorViewCollectionViewCell.identifier)
+        collectionView.register(DevelopersViewCollectionViewCell.self,
+                                forCellWithReuseIdentifier: DevelopersViewCollectionViewCell.identifier)
 
         
         collectionView.dataSource = self
@@ -120,10 +143,11 @@ class FeedViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
     }
     
-    private func configureModels(newGame: [Games], newCreator: [Creator]) {
+    private func configureModels(newGame: [Games], newCreator: [Creator], newDeveloper: [Creator]) {
         //configure models
         self.games = newGame
         self.creator = newCreator
+        self.developers = newDeveloper
         
         sections.append(.listOfGames(viewModels: games.compactMap({
             return GamesViewModel(
@@ -135,13 +159,21 @@ class FeedViewController: UIViewController {
                 }),
                 releaseData: $0.released)
         })))
+        
         sections.append(.listOfCreator(viewModels: creator.compactMap({
             return CreatorViewModel(
                 name: $0.name,
-                profileImage: $0.image,
+                profileImage: $0.image ?? "",
                 totalGames: $0.games_count,
-                positions: $0.positions.first?.name ?? "")
+                positions: $0.positions?.first?.name ?? "")
         })))
+        
+        sections.append(.listOfDevelopers(viewModels: developers.compactMap({
+            return DeveloperViewModel(
+                name: $0.name,
+                developersImage: $0.image_background)
+        })))
+        
         
         collectionView.reloadData()
     }
@@ -162,6 +194,8 @@ extension FeedViewController: UICollectionViewDataSource {
             return viewModels.count
         case .listOfCreator(let viewModels):
             return viewModels.count
+        case .listOfDevelopers(let viewModels):
+            return viewModels.count
         }
     }
     
@@ -179,6 +213,14 @@ extension FeedViewController: UICollectionViewDataSource {
             
         case .listOfCreator(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CreatorViewCollectionViewCell.identifier, for: indexPath) as? CreatorViewCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let viewModel = viewModels[indexPath.row]
+            cell.configure(with: viewModel)
+            return cell
+            
+        case .listOfDevelopers(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DevelopersViewCollectionViewCell.identifier, for: indexPath) as? DevelopersViewCollectionViewCell else {
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.row]
@@ -250,6 +292,28 @@ extension FeedViewController {
             //section
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryViews
+            return section
+        case 2:
+            // Item
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
+                )
+            )
+
+            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(80)
+                ),
+                subitem: item,
+                count: 1
+            )
+            let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = supplementaryViews
             return section
         default:

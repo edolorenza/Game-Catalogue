@@ -29,6 +29,7 @@
 		6BD4F661266DDB2000175D48 /* CreatorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4F660266DDB2000175D48 /* CreatorResponse.swift */; };
 		6BD4F663266DDCF700175D48 /* CreatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4F662266DDCF700175D48 /* CreatorViewModel.swift */; };
 		6BD4F665266DEEB800175D48 /* DevelopersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4F664266DEEB800175D48 /* DevelopersViewModel.swift */; };
+		6BD4F667266DEF5700175D48 /* DevelopersViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4F666266DEF5700175D48 /* DevelopersViewCollectionViewCell.swift */; };
 		E0C0A0B7A99B07C9F9F3DCBA /* Pods_Game_Catalogue.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504F280C2541B6001461B74F /* Pods_Game_Catalogue.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		6BD4F660266DDB2000175D48 /* CreatorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorResponse.swift; sourceTree = "<group>"; };
 		6BD4F662266DDCF700175D48 /* CreatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorViewModel.swift; sourceTree = "<group>"; };
 		6BD4F664266DEEB800175D48 /* DevelopersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopersViewModel.swift; sourceTree = "<group>"; };
+		6BD4F666266DEF5700175D48 /* DevelopersViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopersViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		A1294FE12C6184540D2F0C36 /* Pods-Game Catalogue.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game Catalogue.release.xcconfig"; path = "Target Support Files/Pods-Game Catalogue/Pods-Game Catalogue.release.xcconfig"; sourceTree = "<group>"; };
 		CDA5B5EA9AB29F408D9A78BD /* Pods-Game Catalogue.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Game Catalogue.debug.xcconfig"; path = "Target Support Files/Pods-Game Catalogue/Pods-Game Catalogue.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -181,6 +183,7 @@
 			children = (
 				6BD4F657266DBF9F00175D48 /* FeedViewCollectionViewCell.swift */,
 				6BD4F65E266DC4C000175D48 /* CreatorViewCollectionViewCell.swift */,
+				6BD4F666266DEF5700175D48 /* DevelopersViewCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				6BD4F65B266DBFDA00175D48 /* GamesViewModel.swift in Sources */,
 				6BD4F661266DDB2000175D48 /* CreatorResponse.swift in Sources */,
 				6B5EDED8266DBAC500787D6D /* ColorCons.swift in Sources */,
+				6BD4F667266DEF5700175D48 /* DevelopersViewCollectionViewCell.swift in Sources */,
 				6B5EDECF266DB33300787D6D /* FeedViewController.swift in Sources */,
 				6B5EDED3266DB35F00787D6D /* LibraryViewController.swift in Sources */,
 				6BD4F64A266DBDF000175D48 /* GamesResponse.swift in Sources */,

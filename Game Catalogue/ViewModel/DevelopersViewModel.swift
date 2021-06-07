@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct DeveloperViewModel {
+    let name: String
+    let developersImage: String
+}

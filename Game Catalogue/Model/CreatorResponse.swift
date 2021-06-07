@@ -17,10 +17,10 @@ struct Creator: Codable {
    let id: Int
    let name: String
    let slug: String
-   let image: String
+   let image: String?
    let image_background: String
    let games_count: Int
-   let positions: [GamePos]
+   let positions: [GamePos]?
 }
 
 
