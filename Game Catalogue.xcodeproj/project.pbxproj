@@ -9,21 +9,29 @@
 /* Begin PBXBuildFile section */
 		6B5EDEB6266DB21C00787D6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDEB5266DB21C00787D6D /* AppDelegate.swift */; };
 		6B5EDEB8266DB21C00787D6D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDEB7266DB21C00787D6D /* SceneDelegate.swift */; };
-		6B5EDEBA266DB21C00787D6D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDEB9266DB21C00787D6D /* ViewController.swift */; };
-		6B5EDEBD266DB21C00787D6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B5EDEBB266DB21C00787D6D /* Main.storyboard */; };
+		6B5EDEBA266DB21C00787D6D /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDEB9266DB21C00787D6D /* TabBarViewController.swift */; };
 		6B5EDEBF266DB21D00787D6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B5EDEBE266DB21D00787D6D /* Assets.xcassets */; };
 		6B5EDEC2266DB21D00787D6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B5EDEC0266DB21D00787D6D /* LaunchScreen.storyboard */; };
+		6B5EDECF266DB33300787D6D /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDECE266DB33300787D6D /* FeedViewController.swift */; };
+		6B5EDED1266DB35400787D6D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDED0266DB35400787D6D /* SearchViewController.swift */; };
+		6B5EDED3266DB35F00787D6D /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDED2266DB35F00787D6D /* LibraryViewController.swift */; };
+		6B5EDED6266DBA9E00787D6D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDED5266DBA9E00787D6D /* Extension.swift */; };
+		6B5EDED8266DBAC500787D6D /* ColorCons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5EDED7266DBAC500787D6D /* ColorCons.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6B5EDEB2266DB21C00787D6D /* Game Catalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Game Catalogue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B5EDEB5266DB21C00787D6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B5EDEB7266DB21C00787D6D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6B5EDEB9266DB21C00787D6D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6B5EDEBC266DB21C00787D6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6B5EDEB9266DB21C00787D6D /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		6B5EDEBE266DB21D00787D6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B5EDEC1266DB21D00787D6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B5EDEC3266DB21D00787D6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B5EDECE266DB33300787D6D /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		6B5EDED0266DB35400787D6D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		6B5EDED2266DB35F00787D6D /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		6B5EDED5266DBA9E00787D6D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		6B5EDED7266DBAC500787D6D /* ColorCons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +64,67 @@
 		6B5EDEB4266DB21C00787D6D /* Game Catalogue */ = {
 			isa = PBXGroup;
 			children = (
+				6B5EDECA266DB2B300787D6D /* Model */,
+				6B5EDECB266DB2C300787D6D /* View */,
+				6B5EDEC9266DB2A500787D6D /* ViewModel */,
+				6B5EDECC266DB2D600787D6D /* Controller */,
+				6B5EDED4266DBA9000787D6D /* Utils */,
 				6B5EDEB5266DB21C00787D6D /* AppDelegate.swift */,
 				6B5EDEB7266DB21C00787D6D /* SceneDelegate.swift */,
-				6B5EDEB9266DB21C00787D6D /* ViewController.swift */,
-				6B5EDEBB266DB21C00787D6D /* Main.storyboard */,
 				6B5EDEBE266DB21D00787D6D /* Assets.xcassets */,
 				6B5EDEC0266DB21D00787D6D /* LaunchScreen.storyboard */,
 				6B5EDEC3266DB21D00787D6D /* Info.plist */,
 			);
 			path = "Game Catalogue";
+			sourceTree = "<group>";
+		};
+		6B5EDEC9266DB2A500787D6D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6B5EDECA266DB2B300787D6D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6B5EDECB266DB2C300787D6D /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6B5EDECC266DB2D600787D6D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6B5EDECD266DB2E400787D6D /* Core */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		6B5EDECD266DB2E400787D6D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				6B5EDEB9266DB21C00787D6D /* TabBarViewController.swift */,
+				6B5EDECE266DB33300787D6D /* FeedViewController.swift */,
+				6B5EDED0266DB35400787D6D /* SearchViewController.swift */,
+				6B5EDED2266DB35F00787D6D /* LibraryViewController.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		6B5EDED4266DBA9000787D6D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6B5EDED5266DBA9E00787D6D /* Extension.swift */,
+				6B5EDED7266DBAC500787D6D /* ColorCons.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +186,6 @@
 			files = (
 				6B5EDEC2266DB21D00787D6D /* LaunchScreen.storyboard in Resources */,
 				6B5EDEBF266DB21D00787D6D /* Assets.xcassets in Resources */,
-				6B5EDEBD266DB21C00787D6D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,8 +196,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B5EDEBA266DB21C00787D6D /* ViewController.swift in Sources */,
+				6B5EDED1266DB35400787D6D /* SearchViewController.swift in Sources */,
+				6B5EDEBA266DB21C00787D6D /* TabBarViewController.swift in Sources */,
+				6B5EDED6266DBA9E00787D6D /* Extension.swift in Sources */,
 				6B5EDEB6266DB21C00787D6D /* AppDelegate.swift in Sources */,
+				6B5EDED8266DBAC500787D6D /* ColorCons.swift in Sources */,
+				6B5EDECF266DB33300787D6D /* FeedViewController.swift in Sources */,
+				6B5EDED3266DB35F00787D6D /* LibraryViewController.swift in Sources */,
 				6B5EDEB8266DB21C00787D6D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,14 +210,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6B5EDEBB266DB21C00787D6D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6B5EDEBC266DB21C00787D6D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6B5EDEC0266DB21D00787D6D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -289,6 +345,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A6SVV7LMGJ;
 				INFOPLIST_FILE = "Game Catalogue/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,7 +353,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edolorenza.codes.Game-Catalogue";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -308,6 +365,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A6SVV7LMGJ;
 				INFOPLIST_FILE = "Game Catalogue/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,7 +373,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edolorenza.codes.Game-Catalogue";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
