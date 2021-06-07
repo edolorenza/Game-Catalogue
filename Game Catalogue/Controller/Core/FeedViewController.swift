@@ -9,7 +9,7 @@ import UIKit
 
 enum FeedSectionType{
     case listOfGames(viewModels: [GamesViewModel]) // 0
-    case listOfCreator(viewModels: [GamesViewModel]) //1
+    case listOfCreator(viewModels: [CreatorViewModel]) //1
     
     var title: String{
         switch self {
@@ -25,7 +25,7 @@ enum FeedSectionType{
 class FeedViewController: UIViewController {
     //MARK: - Properties
     private var games: [Games] = []
-    private var creator: [Games] = []
+    private var creator: [Creator] = []
     
     private var collectionView: UICollectionView = UICollectionView (
         frame: .zero,
@@ -60,7 +60,7 @@ class FeedViewController: UIViewController {
         group.enter()
         
         var listOfGames: GamesResponse?
-        var listOfCreator: GamesResponse?
+        var listOfCreator: CreatorResponse?
         
         //list of game
         APICaller.shared.getListOfGame { result in
@@ -75,7 +75,7 @@ class FeedViewController: UIViewController {
             }
         }
         //featured playlist
-        APICaller.shared.getListOfGame { result in
+        APICaller.shared.getListOfCreator { result in
             defer {
                 group.leave()
             }
@@ -120,7 +120,7 @@ class FeedViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
     }
     
-    private func configureModels(newGame: [Games], newCreator: [Games]) {
+    private func configureModels(newGame: [Games], newCreator: [Creator]) {
         //configure models
         self.games = newGame
         self.creator = newCreator
@@ -135,17 +135,14 @@ class FeedViewController: UIViewController {
                 }),
                 releaseData: $0.released)
         })))
-        
-        sections.append(.listOfCreator(viewModels: games.compactMap({
-            return GamesViewModel(
+        sections.append(.listOfCreator(viewModels: creator.compactMap({
+            return CreatorViewModel(
                 name: $0.name,
-                coverImage: $0.background_image,
-                ratings: "\($0.rating)",
-                genre: $0.genres.compactMap({
-                    $0.name
-                }),
-                releaseData: $0.released)
+                profileImage: $0.image,
+                totalGames: $0.games_count,
+                positions: $0.positions.first?.name ?? "")
         })))
+        
         collectionView.reloadData()
     }
     
@@ -235,7 +232,7 @@ extension FeedViewController {
                                 widthDimension: .fractionalWidth(1.0),
                                 heightDimension: .fractionalHeight(1.0)))
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 8)
             
             //vertical group in horizontal grup
             let verticalGroup = NSCollectionLayoutGroup.vertical(

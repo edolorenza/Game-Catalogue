@@ -13,8 +13,8 @@ class TabBarViewController: UITabBarController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        UITabBar.appearance().barTintColor = ColorCons.balticSea
-        tabBar.tintColor = .white
+    
+        tabBar.tintColor = .label
         
         let vc1 = FeedViewController()
         let vc2 = SearchViewController()

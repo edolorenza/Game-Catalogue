@@ -22,35 +22,25 @@ class CreatorViewCollectionViewCell: UICollectionViewCell{
         return iv
     }()
     
-    private let titleLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.text = "The Witcher 3: Wild Hunt"
-        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .label
         return label
     }()
     
-    private let yearLabel: UILabel = {
+    
+    private let totalGameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.text = "2015"
-        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .label
         return label
     }()
     
-    private let ratingLabel: UILabel = {
+    private let positionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.text = "⭐️ 4.8"
-        label.textColor = .white
-        return label
-    }()
-    
-    private let genreLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.text = "Action, Adventure"
-        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -68,28 +58,25 @@ class CreatorViewCollectionViewCell: UICollectionViewCell{
     
     //MARK: - Helpers
     func setupView(){
-        contentView.backgroundColor = ColorCons.tuna
-        contentView.dropShadow()
+        contentView.backgroundColor = .secondarySystemBackground
         addSubview(profileImageView)
-        profileImageView.centerY(inView: self)
-        profileImageView.anchor(left: leftAnchor,paddingLeft: 8)
-        profileImageView.setDimensions(height: frame.width/4, width: frame.width/4)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor)
+        profileImageView.setDimensions(height: frame.height, width: frame.height)
         
-        let stack = UIStackView(arrangedSubviews: [yearLabel, titleLabel, ratingLabel, genreLabel])
+        let stack = UIStackView(arrangedSubviews: [nameLabel, positionLabel, totalGameLabel])
         stack.distribution = .fillEqually
         addSubview(stack)
         stack.axis = .vertical
         stack.spacing = 4
         stack.centerY(inView: profileImageView)
-        stack.anchor(left: profileImageView.rightAnchor, paddingLeft: 6)
+        stack.anchor(left: profileImageView.rightAnchor, paddingLeft: 8)
     }
     
-    func configure(with viewModel: GamesViewModel) {
-        profileImageView.sd_setImage(with: URL(string: viewModel.coverImage))
-        yearLabel.text = viewModel.releaseData
-        titleLabel.text = viewModel.name
-        ratingLabel.text = "⭐️  \(viewModel.ratings)"
-        genreLabel.text = viewModel.genre.joined(separator: ",")
+    func configure(with viewModel: CreatorViewModel) {
+        profileImageView.sd_setImage(with: URL(string: viewModel.profileImage))
+        nameLabel.text = viewModel.name
+        totalGameLabel.text = "Total Game \(viewModel.totalGames)"
+        positionLabel.text = viewModel.positions
     }
     
 }
