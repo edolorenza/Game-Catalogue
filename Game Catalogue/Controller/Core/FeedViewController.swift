@@ -17,9 +17,9 @@ enum FeedSectionType{
         case .listOfGames:
             return "Games"
         case .listOfCreator:
-            return "Cretor"
+            return "Cretors"
         case .listOfDevelopers:
-            return "Cretor"
+            return "Developers"
         }
     }
 }
@@ -139,8 +139,11 @@ class FeedViewController: UIViewController {
                                 forCellWithReuseIdentifier: CreatorViewCollectionViewCell.identifier)
         collectionView.register(DevelopersViewCollectionViewCell.self,
                                 forCellWithReuseIdentifier: DevelopersViewCollectionViewCell.identifier)
-
         
+        //configure collectionView Header
+        collectionView.register(TitleHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleHeaderCollectionReusableView.identifier)
+
+    
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
@@ -233,6 +236,16 @@ extension FeedViewController: UICollectionViewDelegate {
 
 //MARK: - UICollectionViewDataSource
 extension FeedViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TitleHeaderCollectionReusableView.identifier, for: indexPath) as? TitleHeaderCollectionReusableView, kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+        let section = indexPath.section
+        let model = sections[section].title
+        header.configure(with: model)
+        return header
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let type = sections[section]
         switch type {
