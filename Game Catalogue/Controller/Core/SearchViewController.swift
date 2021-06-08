@@ -90,7 +90,19 @@ class SearchViewController: UIViewController {
     
 }
 
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//MARK: - UICollectionViewDelegate
+extension SearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let genres = genre[indexPath.row]
+        let vc = DetailCreatorViewController(creators: genres)
+        vc.title = genres.name
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+//MARK: - UICollectionViewDataSource
+extension SearchViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }

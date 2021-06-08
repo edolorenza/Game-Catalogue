@@ -87,6 +87,30 @@ final class APICaller {
             task.resume()
         }
     }
+    
+    //MARK: - Get detail Of gamaes
+    public func getDetailOfGame(game: Games, completion: @escaping(Result<Games, Error>) -> Void){
+        createRequest(with: URL(string: Constants.baseAPIURL+"/games/\(game.id)?key="+Constants.apiKey), type: .GET) {
+            baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else{
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+    
+                do{
+                    let result = try JSONDecoder().decode(Games.self, from: data)
+//                    var gameResult: [Games] = []
+//                    gameResult.append(contentsOf: result.results.compactMap({$0}))
+                    completion(.success(result))
+                }
+                catch{
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
     //MARK: - Private
     
     enum HTTPMethod: String{

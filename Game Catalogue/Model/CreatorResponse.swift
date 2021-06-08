@@ -20,7 +20,8 @@ struct Creator: Codable {
    let image: String?
    let image_background: String
    let games_count: Int
-   let positions: [GamePos]?
+   let positions: [Games]?
+   let games: [Games]?
 }
 
 

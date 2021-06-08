@@ -6,16 +6,19 @@
 //
 
 import UIKit
+import SDWebImage
 
-class DetailViewController: UIViewController{
+class DetailGameViewController: UIViewController{
     //MARK: - Properties
+    
+    private var game: Games
+    
     private let gameImageView: UIImageView = {
        let iv = UIImageView()
         iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
         iv.layer.masksToBounds = true
-        iv.image = #imageLiteral(resourceName: "gameImage")
         return iv
     }()
     
@@ -23,7 +26,7 @@ class DetailViewController: UIViewController{
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.text = "DESCRIPTION"
-        label.textColor = .lightGray
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -31,7 +34,6 @@ class DetailViewController: UIViewController{
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .right
-        label.text = "2015"
         label.textColor = .white
         return label
     }()
@@ -40,7 +42,6 @@ class DetailViewController: UIViewController{
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .right
-        label.text = "The Witcher 3: Wild Hunt"
         label.textColor = .white
         return label
     }()
@@ -49,8 +50,7 @@ class DetailViewController: UIViewController{
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
-        label.text = "Playtime\n 50 Hours"
-        label.textColor = .white
+        label.textColor = .label
         label.textAlignment = .center
         return label
     }()
@@ -59,7 +59,7 @@ class DetailViewController: UIViewController{
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
-        label.textColor = .white
+        label.textColor = .label
         label.textAlignment = .center
         return label
     }()
@@ -69,7 +69,7 @@ class DetailViewController: UIViewController{
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .label
         return label
     }()
     
@@ -84,8 +84,7 @@ class DetailViewController: UIViewController{
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
-        label.text = "The third game in a series, it holds nothing back from the player. Open world adventures of the renowned monster slayer Geralt of Rivia are now even on a larger scale. Following the source material more accurately, this time Geralt is trying to find the child of the prophecy, Ciri while making a quick coin from various contracts on the side. Great attention to the world building above all creates an immersive story, where your decisions will shape the world around you.\n\nCD Project Red are infamous for the amount of work they put into their games, and it shows, because aside from classic third-person action RPG base game they provided 2 massive DLCs with unique questlines and 16 smaller DLCs, containing extra quests and items.\n\nPlayers praise the game for its atmosphere and a wide open world that finds the balance between fantasy elements and realistic and believable mechanics, and the game deserved numerous awards for every aspect of the game, from music to direction.The third game in a series, it holds nothing back from the player. Open world adventures of the renowned monster slayer Geralt of Rivia are now even on a larger scale. Following the source material more accurately, this time Geralt is trying to find the child of the prophecy, Ciri while making a quick coin from various contracts on the side. Great attention to the world building above all creates an immersive story, where your decisions will shape the world around you.\n\nCD Project Red are infamous for the amount of work they put into their games, and it shows, because aside from classic third-person action RPG base game they provided 2 massive DLCs with unique questlines and 16 smaller DLCs, containing extra quests and items.\n\nPlayers praise the game for its atmosphere and a wide open world that finds the balance between fantasy elements and realistic and believable mechanics, and the game deserved numerous awards for every aspect of the game, from music to direction."
-        label.textColor = .white
+        label.textColor = .label
         return label
     }()
     
@@ -93,19 +92,60 @@ class DetailViewController: UIViewController{
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
-        view.backgroundColor = ColorCons.tuna
+        view.backgroundColor = .systemBackground
         self.navigationController?.view.backgroundColor = UIColor.clear
+        prepareForReuse()
+        fetchData()
     }
+    
+     func prepareForReuse() {
+        titleLabel.text = nil
+        summary.text = nil
+        gameImageView.image = nil
+        achievmentLabel.text = nil
+        playTimeLabel.attributedText = nil
+        achievmentLabel.attributedText = nil
+        ratingLabel.attributedText = nil
+        yearLabel.text = nil
+    }
+    
+    init(game: Games) {
+        self.game = game
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        view.addSubview(scrollView)
+    }
+    
+    //MARK: - API
+    private func fetchData(){
+        APICaller.shared.getDetailOfGame(game: game) {[weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let model):
+                    self?.game = model
+                    self?.configure()
+                case . failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
     
     //MARK: - Helpers
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.view.addSubview(scrollView)
           // constrain the scroll view
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
         
@@ -114,7 +154,7 @@ class DetailViewController: UIViewController{
         
         let headerStack = UIStackView(arrangedSubviews: [yearLabel, titleLabel])
         headerStack.distribution = .fillEqually
-        headerStack.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.25)
+        headerStack.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.50)
         scrollView.addSubview(headerStack)
         headerStack.axis = .vertical
         headerStack.spacing = 2
@@ -145,14 +185,26 @@ class DetailViewController: UIViewController{
     }
     
     func configure(){
-        playTimeLabel.attributedText = atributedText(title: "Playtime", Value: "50 Hours")
+        guard let date = game.released else { return }
+        guard let playtime = game.playtime else { return }
+        guard let rating = game.rating else { return }
+        
+        let releaseYear = date.formattedDate
+
+        titleLabel.text = game.name
+        yearLabel.text = releaseYear
+        summary.text = game.description_raw
+        gameImageView.sd_setImage(with: URL(string: game.background_image ?? ""))
+        achievmentLabel.text = String(game.achievements_count ?? 0)
+        playTimeLabel.attributedText = atributedText(title: "Playtime", Value: "\(playtime) Hours")
         achievmentLabel.attributedText = atributedText(title: "Achievments", Value: "204")
-        ratingLabel.attributedText = atributedText(title: "Ratings", Value: "4.67/5")
+        ratingLabel.attributedText = atributedText(title: "Ratings", Value: "\(rating)/5")
     }
     
     func atributedText(title: String, Value: String) -> NSAttributedString {
-        let atributedString = NSMutableAttributedString(string: "\(title)\n", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.lightGray])
-        atributedString.append(NSAttributedString(string: Value, attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.white]))
+        let atributedString = NSMutableAttributedString(string: "\(title)\n", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.secondaryLabel])
+        atributedString.append(NSAttributedString(string: Value, attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.label]))
         return atributedString
     }
+    
 }

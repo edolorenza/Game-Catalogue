@@ -154,13 +154,14 @@ class FeedViewController: UIViewController {
         
         sections.append(.listOfGames(viewModels: games.compactMap({
             return GamesViewModel(
+                
                 name: $0.name,
-                coverImage: $0.background_image,
-                ratings: "\($0.rating)",
-                genre: $0.genres.compactMap({
+                coverImage: $0.background_image ?? "",
+                ratings: String($0.rating ?? 0),
+                genre: $0.genres?.compactMap({
                     $0.name
-                }),
-                releaseData: $0.released)
+                }) ?? [""],
+                releaseData: $0.released ?? "")
         })))
         
         sections.append(.listOfCreator(viewModels: creator.compactMap({
@@ -198,14 +199,36 @@ class FeedViewController: UIViewController {
             child.removeFromParent()
         }
     }
-    
-    
-    
 }
 
 //MARK: - UICollectionViewDelegate
 extension FeedViewController: UICollectionViewDelegate {
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let section = sections[indexPath.section]
+        switch section {
+        case .listOfGames:
+            let game = games[indexPath.row]
+            let vc = DetailGameViewController(game: game)
+            vc.title = game.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+
+        case .listOfCreator:
+            let creator = creator[indexPath.row]
+            let vc = DetailCreatorViewController(creators: creator)
+            vc.title = creator.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+            
+        case .listOfDevelopers:
+            let developer = developers[indexPath.row]
+            let vc = DetailCreatorViewController(creators: developer)
+            vc.title = developer.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -326,7 +349,7 @@ extension FeedViewController {
                 )
             )
 
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 8)
 
             let group = NSCollectionLayoutGroup.vertical(
                 layoutSize: NSCollectionLayoutSize(
