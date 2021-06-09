@@ -158,7 +158,7 @@ class FeedViewController: UIViewController {
         sections.append(.listOfGames(viewModels: games.compactMap({
             return GamesViewModel(
                 
-                name: $0.name,
+                name: $0.name ?? "",
                 coverImage: $0.background_image ?? "",
                 ratings: String($0.rating ?? 0),
                 genre: $0.genres?.compactMap({
@@ -185,23 +185,7 @@ class FeedViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    func createSpinnerView() {
-        let child = SpinnerViewController()
-
-        // add the spinner view controller
-        addChild(child)
-        child.view.frame = view.frame
-        view.addSubview(child.view)
-        child.didMove(toParent: self)
-
-        // wait two seconds to simulate some work happening
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            // then remove the spinner view controller
-            child.willMove(toParent: nil)
-            child.view.removeFromSuperview()
-            child.removeFromParent()
-        }
-    }
+  
 }
 
 //MARK: - UICollectionViewDelegate
@@ -350,7 +334,7 @@ extension FeedViewController {
                                   subitem: verticalGroup, count: 1)
             //section
             let section = NSCollectionLayoutSection(group: horizontalGroup)
-            section.orthogonalScrollingBehavior = .groupPaging
+            section.orthogonalScrollingBehavior = .continuous
             section.boundarySupplementaryItems = supplementaryViews
             return section
         case 2:

@@ -7,23 +7,21 @@
 
 import Foundation
 
-import Foundation
-
 struct GamesResponse: Codable {
     let results: [Games]
 }
 
 struct Games: Codable {
     let id: Int
-    let slug: String
-    let name: String
+    let slug: String?
+    let name: String?
     let released: String?
     let background_image: String?
     let rating: Double?
     let ratings: [Rating]?
     let ratings_count: Int?
     let added: Int?
-    let metacritic: Int?
+
     let playtime: Int?
     let suggestions_count: Int?
     let updated: String?

@@ -10,6 +10,14 @@ import UIKit
 class SearchViewController: UIViewController {
     
     //MARK: - Properties
+    let searchController: UISearchController = {
+        let result = SearchResultViewController()
+        let vc = UISearchController(searchResultsController: result)
+        vc.searchBar.placeholder = "Games"
+        vc.searchBar.searchBarStyle = .minimal
+        vc.definesPresentationContext = true
+        return vc
+    }()
     
     private var genre = [Creator]()
     
@@ -50,6 +58,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
        
         setupCollectionView()
+        setupSearchController()
         fetchData()
     }
     
@@ -86,8 +95,45 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
     }
+    
+    private func setupSearchController(){
+        navigationItem.searchController = searchController
+        
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
+    }
 
     
+}
+
+//MARK: - UISearchBarDelegate
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let resultController = searchController.searchResultsController as? SearchResultViewController,
+            let query = searchBar.text,
+            !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        resultController.delegate = self
+        APICaller.shared.search(query: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let results):
+                    resultController.update(with: results)
+                break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+    }
+}
+
+extension SearchViewController: SearchResultViewControllerDelegate{
+    func showResult(controller: UIViewController) {
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 //MARK: - UICollectionViewDelegate

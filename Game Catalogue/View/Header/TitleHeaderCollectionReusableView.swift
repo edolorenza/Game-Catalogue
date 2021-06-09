@@ -42,6 +42,6 @@ class TitleHeaderCollectionReusableView: UICollectionReusableView {
     private func setupView(){
         addSubview(titleSectionLabel)
         titleSectionLabel.centerY(inView: self)
-        titleSectionLabel.anchor(left: leftAnchor, paddingLeft: 8)
+        titleSectionLabel.anchor(left: leftAnchor, paddingLeft: 16)
     }
 }

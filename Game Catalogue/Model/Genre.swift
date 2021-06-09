@@ -11,7 +11,7 @@ struct Genre: Codable {
     let id: Int
     let name: String
     let slug: String
-    let games_count: Int
-    let image_background: String
+    let games_count: Int?
+    let image_background: String?
     let domain: String?
 }

@@ -42,6 +42,7 @@ class DetailCreatorViewController: UIViewController {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,6 +75,7 @@ extension DetailCreatorViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model = creators.games?[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.accessoryType = .disclosureIndicator
         cell.textLabel?.text = model?.name
         return cell
     }
