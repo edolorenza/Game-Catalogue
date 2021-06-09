@@ -95,9 +95,17 @@ class DetailGameViewController: UIViewController{
         view.backgroundColor = .systemBackground
         self.navigationController?.view.backgroundColor = UIColor.clear
         prepareForReuse()
-        fetchData()
+      
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        let loader = self.loader()
+        self.fetchData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.stopLoader(loader: loader)
+        }
+       
+    }
      func prepareForReuse() {
         titleLabel.text = nil
         summary.text = nil
@@ -207,4 +215,23 @@ class DetailGameViewController: UIViewController{
         return atributedString
     }
     
+}
+ 
+extension DetailGameViewController{
+    func loader() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: "please wait..", preferredStyle: .alert)
+        let indicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        indicator.hidesWhenStopped = true
+        indicator.style = UIActivityIndicatorView.Style.large
+        indicator.startAnimating()
+        alert.view.addSubview(indicator)
+        self.present(alert, animated: true, completion: nil)
+        return alert
+    }
+    
+    func stopLoader(loader: UIAlertController) {
+        DispatchQueue.main.async {
+            loader.dismiss(animated: true, completion: nil)
+        }
+    }
 }

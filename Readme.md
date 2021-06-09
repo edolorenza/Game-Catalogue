@@ -1,5 +1,4 @@
 # Game Catalogue
-
 ## Objective
 - [x] Has tabbed navigation
 - [x] Showing a list of Popular Games   
@@ -13,6 +12,7 @@
 [SDWebImageView](https://cocoapods.org/pods/SDWebImage)<br>
 
 ## Screenshot
+![screemshot](screenshot.png)
 ## Further Reading
 [Get API KEY](https://rawg.io/apidocs)<br>
 [GET: List Of Game](https://api.rawg.io/docs/#operation/games_list)<br>
