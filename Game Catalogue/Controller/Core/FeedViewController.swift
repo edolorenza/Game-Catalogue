@@ -43,11 +43,28 @@ class FeedViewController: UIViewController {
     
     private var sections = [FeedSectionType]()
     
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView()
+        ai.style = .large
+        ai.backgroundColor = .darkGray
+        ai.color = .white
+        ai.layer.cornerRadius = 4
+        ai.isUserInteractionEnabled = false
+        return ai
+    }()
+    
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        createSpinnerView()
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.setDimensions(height: 60, width: 60)
+        activityIndicator.center(inView: view.self)
+        
+        activityIndicator.startAnimating()
     }
     
     override func viewDidLayoutSubviews() {
@@ -183,6 +200,7 @@ class FeedViewController: UIViewController {
         
         
         collectionView.reloadData()
+        self.activityIndicator.stopAnimating()
     }
     
   

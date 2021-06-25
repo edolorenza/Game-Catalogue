@@ -17,7 +17,6 @@ class DetailGameViewController: UIViewController{
        let iv = UIImageView()
         iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .lightGray
         iv.layer.masksToBounds = true
         return iv
     }()
@@ -73,6 +72,14 @@ class DetailGameViewController: UIViewController{
         return label
     }()
     
+    private let overlayView: UIView = {
+        let view = UIView()
+        view.alpha = 0.5
+        view.backgroundColor = .black
+        view.isHidden = true
+        return view
+    }()
+    
     let scrollView: UIScrollView = {
        let v = UIScrollView()
        v.translatesAutoresizingMaskIntoConstraints = false
@@ -102,11 +109,15 @@ class DetailGameViewController: UIViewController{
         let loader = self.loader()
         self.fetchData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.descriptionLabel.isHidden = false
+            self.overlayView.isHidden = false
             self.stopLoader(loader: loader)
         }
        
     }
+    
      func prepareForReuse() {
+        descriptionLabel.isHidden = true
         titleLabel.text = nil
         summary.text = nil
         gameImageView.image = nil
@@ -160,13 +171,16 @@ class DetailGameViewController: UIViewController{
         scrollView.addSubview(gameImageView)
         gameImageView.anchor(top: scrollView.topAnchor,left: view.leftAnchor,right: view.rightAnchor, height: view.frame.width/1.5)
         
+        scrollView.addSubview(overlayView)
+        overlayView.setHeight(60)
+        overlayView.anchor(top: gameImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: -58)
+        
         let headerStack = UIStackView(arrangedSubviews: [yearLabel, titleLabel])
         headerStack.distribution = .fillEqually
-        headerStack.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.50)
         scrollView.addSubview(headerStack)
         headerStack.axis = .vertical
         headerStack.spacing = 2
-        headerStack.anchor(top: gameImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: -58)
+        headerStack.anchor(top: gameImageView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: -58, paddingRight: 16)
         yearLabel.setHeight(28)
         titleLabel.setHeight(28)
         
